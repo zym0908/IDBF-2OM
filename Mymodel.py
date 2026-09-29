@@ -184,7 +184,6 @@ class BiCrossAttention(nn.Module):
         S = S.transpose(0, 1)
         return G, S
         
-# 注意力加权融合层
 class AttnFusion(nn.Module):
     def __init__(self, d_model=100, dropout=0.1):
         super().__init__()
