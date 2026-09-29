@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import torch
 import time
-import matplotlib.pyplot as plt  # 新增：导入绘图库
+import matplotlib.pyplot as plt 
 from termcolor import colored
 from sklearn.model_selection import StratifiedKFold
 from MyDataset import construct_dataset, load_ind_data
@@ -95,7 +95,7 @@ def train_test(train_iter, test_iter, iter_k):
 
         if test_acc > 0.89:
             filename = '{}, {}[{:.4f}].pt'.format(
-                'mRNA_Model' + ', {}折'.format(iter_k + 1) + ', epoch[{}]'.format(epoch + 1), 'ACC', test_acc)
+                'mRNA_Model' + ', {}fold'.format(iter_k + 1) + ', epoch[{}]'.format(epoch + 1), 'ACC', test_acc)
             save_path_pt = os.path.join('./Result', filename)
             torch.save(net.state_dict(), save_path_pt, _use_new_zipfile_serialization=False)
 
