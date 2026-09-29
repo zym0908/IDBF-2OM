@@ -18,7 +18,6 @@ def load_model(new_model, path_pretrain_model):
 
 
 if __name__ == '__main__':
-    # Evaluating the Results on the Independent Test Set of iRNA-ac4C
     file = "data/G_test.csv"
     test_iter = load_ind_data(file)
     path_pretrain_model = "Result/G2OM_BiFAM-2OM.pt"
