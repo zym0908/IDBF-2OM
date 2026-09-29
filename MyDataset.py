@@ -9,13 +9,12 @@ def transform_token2index(sequences):
     token2index = {'A': 1, 'G': 2, 'U': 3, 'C': 4, 'X': 0}
     max_len = 41
     token_list = []
-    # 遍历序列，生成token索引
     padded_seqs = []
     for seq in sequences:
         if len(seq) < max_len:
-            padded_seq = seq + 'X' * (max_len - len(seq))  # 不足70补X，X对应全0特征
+            padded_seq = seq + 'X' * (max_len - len(seq))  
         else:
-            padded_seq = seq[:max_len]  # 超过70截断
+            padded_seq = seq[:max_len] 
         padded_seqs.append(padded_seq)
     for seq in padded_seqs:
         seq_id = [token2index[aa] for aa in seq]
@@ -32,16 +31,14 @@ def construct_dataset(seqs, labels, train=True, batch_size=64):
     return data_loader
 
 def load_bench_data(file):
-    #将训练集划分：训练和验证集(非交叉验证划分)
     tmp = pd.read_csv(file)
-    seqs, labels = tmp["seq"].values.tolist(), tmp["label"].values.tolist() # tmp[0].values：第0列（序列列）的numpy数组（如array(["ARND", "CEFG", ...])）；tolist()：将numpy数组转为Python列表，方便后续处理；
+    seqs, labels = tmp["seq"].values.tolist(), tmp["label"].values.tolist() 
     train_seqs, test_seqs, train_labels, test_labels = train_test_split(seqs, labels, test_size=0.2, random_state=42)
     train_iter = construct_dataset(train_seqs,train_labels, train =True)
     valid_iter = construct_dataset(test_seqs,test_labels, train = False)
     return train_iter, valid_iter
 
 def load_ind_data(file):
-    # 独立测试集
     tmp = pd.read_csv(file)
     seqs, labels = tmp["seq"].values.tolist(), tmp["label"].values.tolist()
     data_iter = construct_dataset(seqs, labels, train=False)
