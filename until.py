@@ -10,15 +10,14 @@ def evaluate(data_iter, net):
     label_real = []
     for x, label in data_iter:
         x, label = x.to(device), label.to(device)
-        #output_tran, outputs, rep = net(x)  # 可视化
+        #output_tran, outputs, rep = net(x)  
         outputs = net(x).to(device)
         pred_prob_positive = outputs[:, 1]
-        #X = X + output_tran.tolist()  # 可视化
         pred_prob = pred_prob + pred_prob_positive.tolist()
         label_pred = label_pred + outputs.argmax(dim=1).tolist()
         label_real = label_real + label.tolist()
     performance, roc_data, prc_data = caculate_metric(pred_prob, label_pred, label_real)
-    #rep_plt(np.array(X), label_real)  # 可视化
+    #rep_plt(np.array(X), label_real) 
     return performance, roc_data, prc_data, label_real
 
 def caculate_metric(pred_prob, label_pred, label_real):
@@ -74,10 +73,9 @@ def caculate_metric(pred_prob, label_pred, label_real):
 
 def reg_loss(net, output, label):
     criterion = nn.CrossEntropyLoss(reduction='sum')
-    l2_lambda = 0.001  # 正则化系数
+    l2_lambda = 0.001  
     regularization_loss = 0
     for param in net.parameters():
         regularization_loss += torch.norm(param, p=2)
-    # 定义总损失函数（原始损失函数 + 正则化项）
     total_loss = criterion(output, label) + l2_lambda * regularization_loss
     return total_loss
